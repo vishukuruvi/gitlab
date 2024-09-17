@@ -1,0 +1,182 @@
+<DOCTYPE html>
+    <html>
+    <head>
+    <link ref="stylesheet" href="">
+    {% load static %}
+    <style>
+    *{margin:0;padding:0;font-family:'poppins',sans-serif;box-sizing:border-box;}
+    .container{position: absolute; gap: 30px; width: 100%;height:100vh;background:#646363;display:flex;align-items: center;justify-content:center;}
+    .card{box-shadow:15px 15px 15px 10px #d1d1d1;-webkit-box-reflect:left 20px linear-gradient(to left,rgba(0,0,0,0.1),rgba(0,0,0,0.4));width:300px;background:white;
+        text-align:center;border-radius:15px;padding:40px;color:#333;}
+    .card h1{font-weight:500;color:#000;}
+    #ohh{border-radius: 10px; display:block;width:200px;background:red;color:white;padding:12px;margin:10px auto;cursor:pointer;}
+    .card img{width:180px;height:180px;border-radius:50%;margin-top:40px;margin-bottom:30px;}
+    #input-file{display:none;}
+    a{text-decoration: none;}
+    input{border: none;border-radius: 10px;background:#d1d1d1;}
+    .blackwall{position:relative; background-color: transparent;width: 30%;height: 70%;margin-left: 47%;}
+    #edit{color: white;margin-left: 96%; position: relative;font-size: small;}
+    .line1{width: 4px;height: 87%;position: relative;margin-left: 24.6%;margin-top: -36%; background-color: black;}
+    .line2{transform: rotate(55deg); width: 4px;height: 19%;position: relative;margin-top: -2.3%;margin-left: 21%;background-color: black;}
+    .line3{width: 75.2%;height: 4px;position: relative;margin-left: 24.6%;margin-top: 0%; background-color: black;}
+    .box{width: 20%;height: 30%;background-color: black;border-top-left-radius:40px;border-top-right-radius:40px ; margin-top: -20%;margin-left: 80%; position: relative;}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+.clock {
+  display: flex;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  background: var(--white-color);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1), 0 25px 45px rgba(0, 0, 0, 0.1);
+  position: relative;
+  margin-top: -40%;
+  margin-left: 80%;
+}
+.clock label {
+  position: absolute;
+  inset: 6px;
+  text-align: center;
+  transform: rotate(calc(var(--i) * (360deg / 12)));
+}
+.clock label span {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(black);
+  transform: rotate(calc(var(--i) * (-360deg / 12)));
+}
+.indicator {
+  position: absolute;
+  height: 5px;
+  width: 5px;
+  display: flex;
+  justify-content: center;
+}
+.indicator::before {
+  content: "";
+  position: absolute;
+  height: 50%;
+  width: 50%;
+  border-radius: 50%;
+  z-index: 100;
+  background: var(black);
+  border: 4px solid var(red);
+}
+.indicator .hand {
+  position: absolute;
+  height: 130px;
+  width: 4px;
+  bottom: 0;
+  border-radius: 25px;
+  transform-origin: bottom;
+  background: var(red);
+}
+.hand.minute {
+  height: 120px;
+  width: 5px;
+  background: var(black);
+}
+.hand.hour {
+  height: 100px;
+  width: 8px;
+  background: var(black);
+}
+.mode-switch {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 22px;
+  font-weight: 400;
+  display: inline-block;
+  color: var(--white-color);
+  background: var(--black-color);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+    </style>
+    </head>
+    <body>
+    <div class="container">
+    <div class="card">
+    <h1>PROFILE</h1>
+    <img src="{% static 'image/profile.jpg' %}" id="profile-pic">
+    <label for="input-file" id="ohh">UPLOAD IMAGE</label>
+    <input type="file" accept="image/jpg, image/png, image/gif, image/jpeg" id="input-file">
+    </div><end>
+    <h3>Name:<input type="text" placeholder=""></h3>
+    <h3>Age:<input type="number"></h3>
+    <h3>Email:<input type="text" placeholder=""></h3>
+    <h3>Location:<input type="text" placeholder=""></h3>
+    <h3>Mobile:<input type="text" placeholder=""></h3>
+    <h3>Upload Resume:<input type="file"></h3>
+    </div>
+    <a href="" id="edit" onclick="show()"><b>✑Edit</b></a>
+    <div class="blackwall"></div>
+    <div class="line1"></div>
+    <div class="line3"></div>
+    <div class="line2"></div>
+    <div class="box"></div>
+    <div class="clock">
+        <label style="--i: 1"><span>1</span></label>
+        <label style="--i: 2"><span>2</span></label>
+        <label style="--i: 3"><span>3</span></label>
+        <label style="--i: 4"><span>4</span></label>
+        <label style="--i: 5"><span>5</span></label>
+        <label style="--i: 6"><span>6</span></label>
+        <label style="--i: 7"><span>7</span></label>
+        <label style="--i: 8"><span>8</span></label>
+        <label style="--i: 9"><span>9</span></label>
+        <label style="--i: 10"><span>10</span></label>
+        <label style="--i: 11"><span>11</span></label>
+        <label style="--i: 12"><span>12</span></label>
+
+        <div class="indicator">
+          <span class="hand hour"></span>
+          <span class="hand minute"></span>
+          <span class="hand second"></span>
+        </div>
+      </div>
+
+    <script>
+    let profilePic = document.getElementById("profile-pic");
+    let inputFile = document.getElementById("input-file");
+    
+    inputFile.onchange = function(){
+    profilePic.src= URL.createObjectURL(inputFile.files[0]);
+    }
+    const body = document.querySelector("body"),
+    hourHand = document.querySelector(".hour"),
+    minuteHand = document.querySelector(".minute"),
+    secondHand = document.querySelector(".second"),
+    modeSwitch = document.querySelector(".mode-switch");
+
+    if (localStorage.getItem("mode") === "Dark Mode") {
+        body.classList.add("dark");
+        modeSwitch.textContent = "Light Mode";
+    }
+
+    modeSwitch.addEventListener("click", () => {
+    body.classList.toggle("dark");
+    const isDarkMode = body.classList.contains("dark");
+    modeSwitch.textContent = isDarkMode ? "Light Mode" : "Dark Mode";
+    localStorage.setItem("mode", isDarkMode ? "Dark Mode" : "Light Mode");
+    });
+
+    const updateTime = () => {
+    let date = new Date(),
+        secToDeg = (date.getSeconds() / 60) * 360,
+        minToDeg = (date.getMinutes() / 60) * 360,
+        hrToDeg = (date.getHours() / 12) * 360;
+
+    secondHand.style.transform = `rotate(${secToDeg}deg)`;
+    minuteHand.style.transform = `rotate(${minToDeg}deg)`;
+    hourHand.style.transform = `rotate(${hrToDeg}deg)`;
+    };
+
+    setInterval(updateTime, 1000);
+
+    updateTime();
+    </script>
+    </body>
+    </html>

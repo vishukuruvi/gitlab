@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="">
+{% load static %}
+<style>
+body{margin:0;padding:0;display:flex;align-items:center;min-height:100vh;background-color:white;color:white;}
+body.dark-mode{background-color:black;color:white;}
+.toggle-label1{color:black;}
+.toggle-label2.dark-mood{color:white;}
+input[type="checkbox"]{visibility:hidden;display:none;}
+.toggle-slider{position:relative;
+	display:block;
+	width:40px;
+	height:20px;
+	background:black;
+	cursor:pointer;
+	border-radius:20px;
+	overflow:hidden;	
+	transition:ease-in 0.3s;}
+input[type="checkbox"]:checked+.toggle-slider{background:white;box-shadow:black;}
+.toggle-slider::before{content:"";
+		position:absolute;
+		top:2px;
+		left:2px;
+		background:white;
+		width:16px;
+		height:16px;
+		border-radius:50%;
+		transition:0.3s;}
+input[type="checkbox"]:checked+.toggle-slider::before{transform:translate(100%);}
+.toggle-slider::after{content:"";
+		position:absolute;
+		top:2px;
+		right:3px;
+		background:black;
+		width:16px;
+		height:16px;
+		border-radius:50%;
+		transition:0.3s;}
+input[type="checkbox"]:checked~.toggle-slider::after{transform:translate(-120%);}
+img{filter:drop-shadow(1px 1px 20px black);
+    margin-top:-100px;
+	filter:grayscale(10);transition:1s;cursor:pointer;
+}
+img:hover{transform:rotate(0) scale(1.01);filter:grayscale(0);
+	-webkit-box-reflect:below 0px linear-gradient(to bottom,rgba(0,0,0,0.1),rgba(0,0,0,0.6));
+	transition:1.5s;
+}
+    p{padding:0.3rem 0;
+            position:fixed;
+            top:0;
+            width:100%;
+            margin:0 0 0.5rem 0;
+            display:none;
+        }
+    #online{color:rgb(21, 238, 104);}
+    #offline{color:rgb(243, 68, 68);}
+    .container{top:50%;left:50%;position: absolute;transform:translate(-50%,-50%)}
+    .card{padding:60px 40px 50px 40px;border-radius:10px;background:rgb(100,100,100);background-size:cover;}
+    #image{height:100%;width:200%;}
+    #moodToggle{padding-left:50%;}
+    :root {
+  --main-text-color: rgba(110,12,12,1);
+  --eye-background-radial: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(110,12,12,1) 39%, rgba(75,8,8,1) 60%, rgba(0,0,0,1) 100%);
+  --eye-border-color: black;
+}
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--body-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  mix-blend-mode: lighten;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-y: scroll; 
+  overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+
+.line > .text {
+  position: relative;
+  top: -50px;
+  text-align: left;
+}
+
+.text {
+  padding: 10px;
+  color: var(--main-text-color);
+  text-shadow: 0 0 10px rgba(110,12,12,1), 0 0 10px black, 0 0 10px black, 0 0 10px rgba(110,12,12,1);
+  text-align: center;
+  font-size: 20px;
+  bottom: 100px;
+}
+
+.normal-sharingan, .mangekyou-sharingan, .eternal-mangekyou-sharingan, .rinnegan {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-flow: row wrap;
+}
+
+.eye-container {
+  padding: 20px;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.eye {
+  overflow: hidden;
+  cursor: pointer;
+  position:relative;
+  width: 200px;
+  height: 200px;
+  border: 2px solid var(--eye-border-color);
+  transition: 0.3s;
+  opacity: 0.9;
+  background: var(--eye-background-radial);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eye::after {
+  position: absolute;
+  content: '';
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: black;
+}
+
+.eye > .inner-eye {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid black;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tag-container {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+}
+
+.tag {
+  position:absolute;
+  width: 20px;
+  height: 20px;
+  margin-bottom: 120px;
+  background-color: black;
+}
+
+.tag::after {
+  position: absolute;
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 10px solid black;
+  border-radius: 50%;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  left: 3px;
+  top: -5px;
+  margin-bottom: 120px;
+  background-color: transparent;
+}
+
+.eye:hover {
+  z-index: 1;
+  box-shadow: 0 0 500px rgb(201, 13, 13);
+  animation: scale .5s ease-in-out, glow .5s ease-in-out;
+  transform: scale(1.7);
+  opacity: 1;
+  mix-blend-mode: lighten;
+}
+
+.eye:hover .inner-eye {
+  animation: rotation 2.5s ease-in-out .8s;
+}
+
+.eye-and-reflection-container {
+  height: 415px;
+  transition: all 0.3s ease-in-out;
+}
+
+.eye:active {
+  box-shadow: none;
+  animation: none;
+  transform: scale(1);
+  opacity: 1
+}
+
+.owner-info {
+  padding-top: 40px;
+}
+
+.owner-info > .text {
+  text-align: left;
+  font-size: 15px;
+} 
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 0 rgb(201, 13, 13);
+  }
+  100% {
+    box-shadow: 0 0 100px rgb(201, 13, 13);
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+.level3 > .inner-eye > .tag-container:nth-child(2) {
+  transform: rotate(120deg);
+}
+
+.level3 > .inner-eye > .tag-container:nth-child(3) {
+  transform: rotate(240deg);
+}
+</style>
+</head>
+<body>
+    <center>
+    <p id="offline" title="NO INTERNET">(﹙˓!˒﹚)</p>
+    <p id="online" title="CONNECTED">(﹙˓!˒﹚)</p>
+    <div class="eye-and-reflection-container">
+        <div class="eye-container">
+          <div class="eye circle level3">
+            <div class="glare circle"></div>
+            <div class="inner-eye circle">
+              <div class="tag-container">
+                <div class="tag circle"></div>
+              </div>
+              <div class="tag-container">
+                <div class="tag circle"></div>
+              </div>
+              <div class="tag-container">
+                <div class="tag circle"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+    <div class="class">
+    <img id='img' src="{% static 'image/itachi7.jpg' %}">
+    <div class="toggle-container">
+    <span class="toggle-label1">DARKMOOD</span>
+    <label class="toggle-switch">
+    <input type="checkbox" id="moodToggle">
+    <span class="toggle-slider"></span>
+    </label>
+    <span class="toggle-label2">LIGHTMOOD</span>
+    </div>
+    </div> 
+    <script>
+        const toggleSwitch = document.getElementById('moodToggle');  
+        const body = document.body;  
+  
+        toggleSwitch.addEventListener('change', () => {  
+        body.classList.toggle('dark-mode');  
+        });
+        let online = document.getElementById('online');
+        let offline = document.getElementById('offline');
+        window.addEventListener('online',function(){online.style.display='block';})
+        window.addEventListener('offline',function(){offline.style.display='block';})
+
+        const path = document.getElementById('the-path')
+
+const roundTo = function (input, sigdigs) {
+  return Math.round(input * Math.pow(10, sigdigs)) / Math.pow(10, sigdigs)
+}
+
+const makeSpiralPoints = function (origin, revolutions, pointCount, clockwise, padding) {
+  const direction = clockwise ? 1 : -1
+  const circ = padding / (2 * Math.PI)
+  const step = (2 * Math.PI * revolutions) / pointCount
+  const points = []
+  let angle = null
+  let x = null
+  let y = null
+  for (let i = 0; i <= pointCount; i++) {
+    angle = direction * step * i
+    x = roundTo((circ * angle) * Math.cos(angle) + origin.x, 2)
+    y = roundTo((circ * angle) * Math.sin(angle) + origin.y, 2)
+    points.push(x + ' ' + y)
+  }
+
+  return ('M ' + points.shift() + ' S ' + points.join(' '))
+}
+
+path.setAttribute('d', makeSpiralPoints({ x: 75, y: 75 }, 4, 2048, false, 25))
+
+    </script>
+    <center>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load static %}
+    <title>REGISTER PAGE</title>
+    <style>
+        p{padding:0.3rem 0;
+            position:fixed;
+            top:0;
+            width:100%;
+            margin:0 0 0.5rem 0;
+            display:none;
+            }
+        #online{color:rgb(21, 238, 104);}
+        #offline{color:rgb(243, 68, 68);}
+        a{
+            text-decoration: none;
+        }
+        body{margin:0;padding:0;background-size:cover;}
+        .container{top:50%;left:50%;position: absolute;transform:translate(-50%,-50%);color:white;}
+        .card{padding:60px 40px 50px 40px;border-radius:20px;}
+        #image{height:100%;width:100%;}
+    </style>
+    </head>
+<body>
+    <img id="image" src="{% static 'image/deep1.png' %}">
+    <center>
+    <p id="offline" title="NO INTERNET">(﹙˓!˒﹚)</p>
+    <p id="online" title="CONNECTED">(﹙˓!˒﹚)</p>
+    <script>
+    let online = document.getElementById('online');
+    let offline = document.getElementById('offline');
+    window.addEventListener('online',function(){online.style.display='block';})
+    window.addEventListener('offline',function(){offline.style.display='block';})
+    </script>    
+    <div class="container">
+    <div class="class">
+        <form action="{% url 'after_reg' %}" method="POST" autocomplete="off">
+        {% csrf_token %}
+        <h1>REGISTER</h1>
+        <lable>FIRST NAME:</lable>
+        <input type="text" placeholder="Enter your name" name="first"><br>
+        <lable>LAST NAME:</lable>
+        <input type="text" placeholder="Enter your name" name="last"><br>
+        <lable>AGE:</lable>
+        <input type="text" placeholder="age" name="age"><br>
+        <lable>email:</lable>
+        <input type="text" placeholder="enter your mail" name="email"><br>
+        <lable>MOBILE NO:</lable>
+        <input type="text" placeholder="" name="mobile"><br>
+        <lable>ADDRESS</lable>
+        <input type="text" placeholder="location" name="add"><br>
+        <lable>PIN CODE:</lable>
+        <input type="text" placeholder="" name="pin"><br>
+        <lable>PASSWORD:</lable>
+        <input type="text" placeholder="" name="password"><br>
+        <button onclick="alert('Registered successfully')"> <a href="home">submit</a></button>
+    </div>
+    </div>
+    </center>
+</body>
+</html>
