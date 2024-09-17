@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpost" content="width=device-width, initial-scale=1.0">
+    <title>forget_password</title>
+    {% load static %}
+    <style>
+        p{padding:0.3rem 0;
+            position:fixed;
+            top:0;
+            width:100%;
+            margin:0 0 0.5rem 0;
+            display:none;
+            }
+        #online{color:rgb(21, 238, 104);}
+        #offline{color:rgb(243, 68, 68);}
+        a{
+            text-decoration: none;
+        }
+        body{margin:0;padding:0;background-size:cover;}
+        .container{top:50%;left:50%;position: absolute;color:white;transform:translate(-50%,-50%)}
+        .card{padding:60px 40px 50px 40px;border-radius:20px;}
+        #image{height:100%;width:200%;}
+    </style>
+</head>
+<body>
+    <img id="image" src="{% static 'image/deep1.png' %}">
+    <center>
+    <p id="offline" title="NO INTERNET">(﹙˓!˒﹚)</p>
+    <p id="online" title="CONNECTED">(﹙˓!˒﹚)</p>
+    <script>
+    let online = document.getElementById('online');
+    let offline = document.getElementById('offline');
+    window.addEventListener('online',function(){online.style.display='block';})
+    window.addEventListener('offline',function(){offline.style.display='block';})
+    </script>
+    <div class="container">
+    <div class="card">
+    <form action="{% url 'index1' %}" method="POST" autocomplete="off">
+        {% csrf_token %}
+        <h1>login</h1>
+        <lable for="">CREATE NEW PASSWORD</lable>
+        <input type="text" placeholder="password"><br>
+        <lable for="">CONFORM PASSWORD</lable>
+        <input type="text" placeholder="password" name="password"><br>
+        <button onclick="alert('password changed successfully')"> <a href="home">submit</a></button>
+    </form>
+    </div>
+    </div>
+    </center>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<DOCTYPE html>
+    <head>
+        {% load static %}
+    <style>
+        p{padding:0.3rem 0;
+            position:fixed;
+            top:0;
+            width:100%;
+            margin:0 0 0.5rem 0;
+            display:none;
+            }
+        #online{color:rgb(21, 238, 104);}
+        #offline{color:rgb(243, 68, 68);}
+        body{margin:0;padding:0;background-size:cover;}
+        .container{top:50%;left:50%;position: absolute;transform:translate(-50%,-50%);color:white;}
+        .card{padding:60px 40px 50px 40px;border-radius:10px;}
+        #image{height:100%;width:200%;}
+    </style>
+    </head>
+    <body>
+    <img id="image" src="{% static 'image/deep1.png' %}">
+    <form action="{}" method="POST" autocomplete="off">
+        {% csrf_token %}
+
+    <center>
+    <p id="offline" title="NO INTERNET">(﹙˓!˒﹚)</p>
+    <p id="online" title="CONNECTED">(﹙˓!˒﹚)</p>
+    <script>
+    let online = document.getElementById('online');
+    let offline = document.getElementById('offline');
+    window.addEventListener('online',function(){online.style.display='block';})
+    window.addEventListener('offline',function(){offline.style.display='block';})
+    </script>
+    <div class="container">
+    <h1>WRONG PASSWORD</h1>
+    <div class="class">
+    <img src="{% static 'image/pigg.gif' %}">
+    </div>
+    </div>
+    </center>
+    </body>
+    </html>

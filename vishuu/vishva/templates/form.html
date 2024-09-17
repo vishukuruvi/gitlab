@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="">
+    <title>main page</title>
+    {% load static %}
+    <style>
+        p{padding:0.3rem 0;position:fixed;top:0;width:100%;margin:0 0 0 0;display:none;}
+        #online{margin-left: 1%; width: 6%; color:rgb(21, 238, 104);}
+        #offline{margin-left: 1%; width: 6%; color:rgb(243, 68, 68);}
+        a{text-decoration: none;}
+        .card #loin{position: absolute; margin-top: 20%;margin-left: 40%;}
+        .card #regter{position: absolute; margin-top: 70%;margin-left: 170%;}
+        body{margin:0;padding:0;background-size:cover;background-image: url("{% static 'image/deep2.png' %}");}
+        .container{z-index: 1; width:90%;height:98%;top:50%;left:54%;position: absolute;transform:translate(-50%,-50%);color:white;}
+        .card{z-index: 2; margin-top:5%;margin-left: 20%; width:20%;height:10%;position: absolute;transform:translate(-50%,-50%);}
+        .h1{background-color:black;}
+        .page{width: 100%;height: 100%; display:flex;}
+        .hi{height: 100vh;width:250px;background-color: black;color:white;padding-top: 20px;transition: all .3;text-align:center;}
+        .slidebar{z-index: 4; width: 28px;height:100%;position:fixed;top:0;left:0;padding: 30px 15px;
+                    background: rgba(69, 68, 68, 0.2);backdrop-filter:blur(5px);display: flex;
+                    justify-content: space-between;flex-direction:column;transition: width 0.8s;}
+        .page{width: 100%;height: 100vh;background-position: center;background-size: cover;}
+        .ul li{margin:30px 0;display:flex;align-items: center;justify-content: center;cursor: pointer;}
+        .slidebar:hover{width:100px;}
+        ul{list-style: none;padding: 0 15px;}
+        .slidebar:hover ul li p{display: block;top:150px;color:white;}
+        .slidebar:hover ul li p:hover::after{content: '_☬';color:black;}
+        #search{position: relative; z-index: 4; background-color:rgba(69, 68, 68, 0.2); width:0px;height:0px;transition:width 1s,border-radius 1s;border-radius: 50%;
+            margin-left: 84%;margin-top: 30px; padding: 8px 8px; cursor:pointer;display:flex;border-width: 3px;border-color: white;}
+        #search:focus{font-size: 15px;font-style: normal; background-color: white; border-radius: 5%/20%;outline: none; width:180px;height: 33px;}
+        .dots{position: fixed; width:15px;height: 20px; margin-top: 33px;margin-left:98%; cursor: pointer;}
+        .dot{padding-left: 1px; margin-top:2px; width:4px;height:4px;background-color: white;border-radius: 50%;}
+        .style{width: 200px;height: 260px;background-color: black;margin-top:60px;margin-left:85%;border-radius: 20px;}
+        .fan .info{padding-top: 35px; font-size: 15px;color:white;border-bottom: 1px solid white;cursor: pointer;}
+        .fan .info:hover{background-color: black;border-radius: 50px;}
+        .fan .info b{margin-left: 30px;}
+        .fan{visibility: hidden;cursor: pointer;}
+        #magnify::before{display: flex; content:"";position: absolute;height: 13px;width: 3px;background-color: white;
+            transform: rotate(-35deg);top:48px;left: 85.4%;}
+        #search, span{appearance:none;position:absolute;}
+        span{font-size: 15px;font-style: normal; color:rgb(214, 210, 210);text-indent:0.18em;top:4em;margin-top:-44px;margin-left: 85.2%;z-index: 4;}
+        .share{margin-top: 32%;margin-left: 92%;position: absolute;}
+        .share #flo:hover{background-color: black; height:28px ;width: 85px;transition: 1s;}
+        .share #flo{width: 70px;height: 25px;border-radius: 20px;cursor: pointer;}
+        .share b{color:black;}
+        .share:hover b{display: none;}
+        .share #flo:hover img{width: 20px;height: 20px;transition-delay: 0.6s;}
+        .share img{width: 2px;height: 2px;border-radius: 50%;}
+        #menu{display:none;position: absolute;}
+        #menu span::before{position:absolute;content:'';top:0.1px;left:0;width:0;height:0;background:linear-gradient(135deg,#212121 0%,#212121 50%,#0f5e6e 50%,#0f5e6e 60%);
+		        border-radius:0 0 0.5em 0;box-shadow:0.2em 0.2em 0.2em #0000004d;transition:0.2s;}
+        #menu span:hover::before{width:1.6em;height:1.5em;border-radius:30% 10% 50% 10%; cursor:pointer;}
+        #menu span{display:inline-block;background-color:#143134;padding:10px;color:white;border-radius: 15%;}
+        #preloader{background: white url("{% static 'image/loading.gif' %}") no-repeat center center;height:100vh;width: 100%;position: fixed;z-index: 100;}
+        .slidebar:hover #displaypic{max-width: 70px;margin-left: 15px;filter:grayscale(0);}
+        .slidebar:hover #log{margin-top: 405%;}
+        .slidebar #displaypic{min-width:30px ; filter:grayscale(10);transition: 1.5s;}
+        .fan .info a{color: white;}
+        .fan .info #cur{cursor: pointer;}
+        .stay{width: 80%;height: 40%;background-color: black;top: -40%;left: -10px;position:absolute;}
+        #image{height:112%;width:100%;}
+        .card{--s:4px;--o:calc(0.2 * 3px);font:clamp(2em,min(5vh,1vw),10em)/ 0.80 'Bebas Neue',sans-serif;}
+        @supports(line-height:1cap){body{line-height:1cap;}}
+        #loin,#regter{--sl: calc(50% - 0.5px), #0000 calc(60% + 0.5px);place-self:center;padding:calc(0.0em + 6px) 0.05em 0 0;
+	        height:calc(1lh + 6px - var(--o));border-radius: 10%; background:linear-gradient(22.5deg, #fff var(--sl)) text,
+	        linear-gradient(22.5deg, #000 var(--sl)),linear-gradient(#094770 50%, #0000 0) 0 0/ 1% 6px;
+	        color: #0000;-webkit-text-stroke: #fff calc(var(--o));text-transform:uppercase;mix-blend-mode:screen;}
+        #speed{margin-left: 2%;margin-top: 32%; cursor: pointer;position: fixed;}
+        #my-popover{border-radius: 10%; z-index: 5;position: sticky;margin-top: -40%;margin-left: 10%; width: 40%;height: 43%;}
+        #pops{z-index: 5;cursor: pointer;margin-left: 15%; position: absolute;margin-top: 1%;background-color: transparent;transform: rotate(120deg);border-radius: 50%;border: none;}
+        .joo {height: 100%;display: flex;}
+        #toolbar {border-radius: 15%; flex-direction: column; padding: 3%;width:70px;  background-color: black;  }  
+        #toolbar * { margin-bottom: 6px;  }  
+        #toolbar label {font-size: 12px;color: white;}  
+        #toolbar input {width: 80%;cursor: pointer;}
+        #toolbar button {cursor: pointer; background-color: black;  border: none;  border-radius: 4px;color: white;padding: 2px;}  
+        .drawing-board{cursor: url(crosshair.cur); border-radius:20%;width:31%;height:40%;background-color:white;margin-left: 18%;margin-top: 11%;}
+        button{cursor: pointer;border-radius: 50%;}
+        #flo{background-color: rgb(186, 185, 183);}
+    </style>
+    </head>
+<body>
+    <button id="pops" popovertarget="my-popover"><h2>✑</h2></button>
+    <div id="my-popover" popover>
+        <section class="joo">  
+        <div id="toolbar">
+        <label>Color</label>  
+        <input id="stroke" name="stroke" type="color">  
+        <label id="width">Line Width</label>  
+        <input id="linewidth" name="linewidth" type="number" value="5">  
+        <button id="clear">Erase</button>
+        <button popovertarget="popover"><h1>DRAW</h1></button>
+        </div>  
+        <div class="drawing-board" id="popover" popover>
+        <canvas id="drawing-board"></canvas>  
+        </div>  
+        </section>
+    </div>
+<div class="page">
+    <img id="image" src="{% static 'image/deep1.png' %}">
+        <div class="slidebar" onclick="remove()">
+            <img src="{% static 'image/profile.jpg' %}" id="displaypic">
+        <ul>
+            <li><a href="uploadphoto"><p>PROFILE</p></a></li>
+        </ul>
+        <ul>
+            <li><b><p id="log">LOG OUT</p></b></li>
+        </ul>
+        </div>
+    <div class="container">
+        <div id="preloader"></div>
+    <div id="menu">
+    <span onclick="window.location.reload()">Refresh</span>
+    </div>
+        <p id="offline" title="NO INTERNET"><b>(﹙˓!˒﹚)</b></p>
+        <p id="online" title="CONNECTED"><b>(﹙˓!˒﹚)</b></p>
+        <form action="https://www.google.com/search" method="get" autocomplete="off" target="_blank" id="search-form">
+            {% csrf_token %}
+        <input name="q" type="search" id="search" placeholder="Search" onclick="remove()" autocomplete="off">
+        <span id="overlay"></span>
+        <div id="magnify"></div>
+        <div class="dots" onclick="fun()">
+        <center>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        </center>
+      </form>
+        </div>
+        <div class="fan" id="fan">
+        <div class="info"><b>SETTINGS</b></div>
+        <div class="info"><a href="dark"><b>DARK MOOD</b><input type="checkbox" onclick="hideshow()" id="cur"></a></div>
+        <div class="info"><b>NETWORK</b></div>
+        <div class="info"><b>DISPLAY</b></div>
+        <div class="info" onclick="remove()"><b>EXIT</b></div>
+        </div>
+    <div class="card" onclick="remove()">
+    <center>
+    <a id="loin" href="home"> LOGIN </a>
+    <a id="regter" href="home1">REGISTER</a>
+    </center>
+    </div>
+    <div class="share" onclick="remove()">
+    <button id="flo"><b>Share ☍</b>
+    <a href="https://web.whatsapp.com/"><img src="{% static 'image/whatsapp.jpeg' %}"></a>
+    <a href="https://www.instagram.com/?hl=en"><img src="{% static 'image/insta.jpeg' %}"></a>
+    <a href="https://www.facebook.com/login.php/"><img src="{% static 'image/facebook.jpeg' %}"></a>
+    </button>
+    </div>
+    <div id="speed">
+        {% block userinfo %}
+        {% endblock %}
+    </div>
+    </div>
+</div>
+<script>
+    var loader = document.getElementById("preloader");
+    window.addEventListener("load", function(){
+        loader.style.display = "none";
+    })
+    let online = document.getElementById('online');
+    let offline = document.getElementById('offline');
+    window.addEventListener('online',function(){
+        offline.style.display='none'
+        online.style.display='flex';
+    });
+    window.addEventListener('offline',function(){
+        offline.style.display='flex';
+        online.style.display='none';
+    });
+    function fun(){
+        document.getElementById("fan").style.visibility="visible";
+        document.getElementById("fan").classList.add("style");
+    }
+    function remove(){
+        document.getElementById("fan").classList.remove("style");
+        document.getElementById("fan").style.visibility="hidden";
+    }
+    const words =["vishva","vishal","niveka","palani","kalai","kowsalya","google","youtube","whatsapp","facebook","instagram","snapchat"];
+    const input = document.getElementById("search");
+    const overlay=document.getElementById("overlay");
+    input.addEventListener("input", () => {
+    let isChanged = words.some((word) => {
+	if(input.value.length !== 0 && word.startsWith(input.value)
+	){
+	overlay.innerText = word;
+	return true;
+	}
+	});
+	if(!isChanged)
+		overlay.innerText = ""
+    })
+    input.addEventListener("keydown",(event) => {
+        if(event.key === " "){
+            if(overlay.innerText.length > 0) {
+                input.value = overlay.innerText;
+            }
+        }
+    })
+    const menu = document.getElementById("menu");
+
+    document.addEventListener("contextmenu", (event) => {
+	        event.preventDefault();
+	
+	        menu.style.display = "block";
+	        menu.style.top = event.clientY + "px";
+	        menu.style.left = event.clientX + "px";
+    });
+    document.addEventListener("click", (event) => {
+	        menu.style.display = "none"
+    });
+    var div = document.getElementById('image');
+    var display = 0;
+
+    function hideshow(){
+        if(display == 1)
+        {
+            div.style.display = 'block';
+            display = 0;
+        }
+        else
+        {
+            div.style.display = 'none';
+            display = 1;
+        }
+    }
+    const canvas = document.getElementById('drawing-board');  
+    const toolbar = document.getElementById('toolbar');  
+    const ctx = canvas.getContext('2d');  
+  
+    const canvasOffsetX = canvas.offsetLeft;  
+    const canvasOffsetY = canvas.offsetTop;  
+  
+    canvas.width = window.innerWidth - canvasOffsetX;  
+    canvas.height = window.innerHeight - canvasOffsetY;  
+  
+    let isPainting = false;  
+    let lineWidth = parseInt(document.getElementById('linewidth').value);  
+    let strokeColor = document.getElementById('stroke').value;  
+  
+    toolbar.addEventListener('click', (e) => {  
+        if (e.target.id === 'clear') {  
+          ctx.clearRect(0, 0, canvas.width, canvas.height);  
+        }  
+    });  
+  
+    toolbar.addEventListener('change', (e) => {  
+        if (e.target.id === 'troke') {  
+          strokeColor = e.target.value;  
+        }  
+        if (e.target.id === 'linewidth') {  
+          lineWidth = parseInt(e.target.value);  
+        }  
+    });  
+  
+    const draw = (e) => {  
+    if (!isPainting) return;  
+    ctx.beginPath();  
+    ctx.lineWidth = lineWidth;  
+    ctx.lineCap = 'round';  
+    ctx.strokeStyle = strokeColor;  
+    ctx.lineTo(e.clientX - canvasOffsetX, e.clientY - canvasOffsetY);  
+    ctx.stroke();  
+    };  
+  
+    canvas.addEventListener('mousedown', (e) => {  
+    isPainting = true;  
+    });  
+  
+    canvas.addEventListener('mouseup', () => {  
+    isPainting = false;  
+    ctx.stroke();
+    ctx.beginPath();
+ });  
+  
+ canvas.addEventListener('mousemove', draw);
+ const searchForm = document.querySelector("#search-form");
+const searchFormInput = searchForm.querySelector("input");
+document.querySelector("#search-form input");
+const info = document.querySelector(".info");
+
+// The speech recognition interface lives on the browser’s window object
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition; // if none exists -> undefined
+
+if(SpeechRecognition) {
+  console.log("Your Browser supports speech Recognition");
+  
+  const recognition = new SpeechRecognition();
+  recognition.continuous = true;
+  // recognition.lang = "en-US";
+
+  searchForm.insertAdjacentHTML("beforeend", '<button type="button"><i class="fas fa-microphone"></i></button>');
+  searchFormInput.style.paddingRight = "50px";
+
+  const micBtn = searchForm.querySelector("button");
+  const micIcon = micBtn.firstElementChild;
+
+  micBtn.addEventListener("click", micBtnClick);
+  function micBtnClick() {
+    if(micIcon.classList.contains("fa-microphone")) { // Start Voice Recognition
+      recognition.start(); // First time you have to allow access to mic!
+    }
+    else {
+      recognition.stop();
+    }
+  }
+
+  recognition.addEventListener("start", startSpeechRecognition); // <=> recognition.onstart = function() {...}
+  function startSpeechRecognition() {
+    micIcon.classList.remove("fa-microphone");
+    micIcon.classList.add("fa-microphone-slash");
+    searchFormInput.focus();
+    console.log("Voice activated, SPEAK");
+  }
+
+  recognition.addEventListener("end", endSpeechRecognition); // <=> recognition.onend = function() {...}
+  function endSpeechRecognition() {
+    micIcon.classList.remove("fa-microphone-slash");
+    micIcon.classList.add("fa-microphone");
+    searchFormInput.focus();
+    console.log("Speech recognition service disconnected");
+  }
+
+  recognition.addEventListener("result", resultOfSpeechRecognition); // <=> recognition.onresult = function(event) {...} - Fires when you stop talking
+  function resultOfSpeechRecognition(event) {
+    const current = event.resultIndex;
+    const transcript = event.results[current][0].transcript;
+    
+    if(transcript.toLowerCase().trim()==="stop recording") {
+      recognition.stop();
+    }
+    else if(!searchFormInput.value) {
+      searchFormInput.value = transcript;
+    }
+    else {
+      if(transcript.toLowerCase().trim()==="go") {
+        searchForm.submit();
+      }
+      else if(transcript.toLowerCase().trim()==="reset input") {
+        searchFormInput.value = "";
+      }
+      else {
+        searchFormInput.value = transcript;
+      }
+    }
+  }
+}
+else {
+  console.log("Your Browser does not support speech Recognition");
+  info.textContent = "Your Browser does not support Speech Recognition";
+}
+</script>
+</body>
+</html>
